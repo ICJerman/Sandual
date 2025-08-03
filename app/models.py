@@ -11,4 +11,4 @@ class Bubble(Base):
     quantity = Column(Float, nullable=False)                  # Qty adjusted
     status = Column(String, default="active")                 # active, archived
     created_at = Column(DateTime, default=datetime.utcnow)    # Timestamp
-    notes = Column(String)                                    # Optional notes
+    notes = Column(String)                                   # Optional notes
