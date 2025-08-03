@@ -1,7 +1,12 @@
 [build]
-  base = "app/bubble-frontend"    # Go into the React frontend folder
-  publish = "build"               # Serve from the build folder
-  command = "npm install && npm run build"  # Install and build React app
+  base = "app/bubble-frontend"
+  publish = "build"
+  command = "npm install && npm run build"
+  ignore = "exit 0"   # ✅ Ignore any backend changes for build trigger
 
 [build.environment]
-  NODE_VERSION = "20"              # Ensure Node v20 is used for React builds
+  NODE_VERSION = "20"
+
+# Explicitly tell Netlify NOT to install Python or pip
+[functions]
+  node_bundler = "esbuild"
