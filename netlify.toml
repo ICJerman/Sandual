@@ -1,12 +1,7 @@
 [build]
-  base = "app/bubble-frontend"
+  base = "frontend"
   publish = "build"
   command = "npm install && npm run build"
-  ignore = "exit 0"   # ✅ Ignore any backend changes for build trigger
 
 [build.environment]
   NODE_VERSION = "20"
-
-# Explicitly tell Netlify NOT to install Python or pip
-[functions]
-  node_bundler = "esbuild"
