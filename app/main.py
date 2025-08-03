@@ -11,7 +11,7 @@ app = FastAPI(title="Bubble Inventory Tracker")
 # Enable CORS for React frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],   # allow all origins (for dev)
+    allow_origins=["https://sandual.netlify.app"],  # your Netlify domain
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
