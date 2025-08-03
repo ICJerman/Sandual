@@ -1,0 +1,7 @@
+[build]
+  base = "app/bubble-frontend"    # Go into the React frontend folder
+  publish = "build"               # Serve from the build folder
+  command = "npm install && npm run build"  # Install and build React app
+
+[build.environment]
+  NODE_VERSION = "20"              # Ensure Node v20 is used for React builds
