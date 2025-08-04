@@ -1,6 +1,5 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from starlette.middleware.httpsredirect import HTTPSRedirectMiddleware
 from app.database import Base, engine
 from app.routers import bubble
 
@@ -9,18 +8,15 @@ Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Bubble Inventory Tracker")
 
-# ✅ Enforce HTTPS (no HTTP allowed)
-app.add_middleware(HTTPSRedirectMiddleware)
-
 # ✅ Allow Netlify main + all preview deploys
 origins = [
-    "https://sandual.netlify.app",  # main site
+    "https://sandual.netlify.app",        # main Netlify domain
 ]
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
-    allow_origin_regex=r"https://.*\.netlify\.app",  # allow previews
+    allow_origin_regex=r"https://.*\.netlify\.app",  # ✅ preview deploys
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
