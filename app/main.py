@@ -3,21 +3,24 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.database import Base, engine
 from app.routers import bubble
 
-# Create tables
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Bubble Inventory Tracker")
 
-# Enable CORS for React frontend
+# ✅ Allow your frontend domain
+origins = [
+    "https://sandual.netlify.app",   # Main Netlify domain
+    "https://*.netlify.app"          # Allow preview deploys (optional)
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://sandual.netlify.app"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# Include routers
 app.include_router(bubble.router)
 
 @app.get("/")
