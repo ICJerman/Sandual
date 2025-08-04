@@ -1,12 +1,13 @@
 [build]
-  base    = "frontend"
-  publish = "frontend/build"
-  command = "npm install && npm run build"
+base = "frontend"
+publish = "frontend/build"
+command = "npm install && npm run build"
 
 [build.environment]
-  REACT_APP_API_BASE = "https://sandual-bcfjb2ddghhbh8hd.eastus2-01.azurewebsites.net"
+REACT_APP_API_BASE = "https://sandual-bcfjb2ddghhbh8hd.eastus2-01.azurewebsites.net"
+NODE_VERSION = "18"
 
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+from = "/*"
+to = "/index.html"
+status = 200
