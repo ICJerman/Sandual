@@ -17,10 +17,10 @@ venv/
 .env
 
 # -----------------------------
-# REACT FRONTEND (bubble-frontend)
+# REACT FRONTEND (now in /frontend)
 # -----------------------------
-bubble-frontend/node_modules/
-bubble-frontend/build/
+frontend/node_modules/
+frontend/build/
 
 # Netlify local build folders
 .netlify/
