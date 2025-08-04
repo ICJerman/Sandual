@@ -15,13 +15,12 @@ import {
 } from "@mui/material";
 import { Delete, Edit, Save } from "@mui/icons-material";
 
-// ✅ Use environment variable for API_BASE
+// ✅ Use Environment Variable first, fallback to HTTPS backend
 const API_BASE =
   process.env.REACT_APP_API_BASE ||
   "https://sandual-bcfjb2ddghhbh8hd.eastus2-01.azurewebsites.net";
 
 console.log("🔥 API_BASE is:", API_BASE);
-
 
 function App() {
   const [bubbles, setBubbles] = useState([]);
@@ -33,24 +32,20 @@ function App() {
   });
   const [editId, setEditId] = useState(null);
   const [editData, setEditData] = useState({});
-  const [loading, setLoading] = useState(false);
 
   // Fetch bubbles
   const fetchBubbles = async () => {
     try {
       const url = `${API_BASE}/bubbles`;
-      console.log("Fetching from:", url);
+      console.log("📡 Fetching from:", url);
       const res = await axios.get(url);
       setBubbles(res.data);
     } catch (err) {
       console.error("Error fetching bubbles:", err);
-      if (err.response) {
-        console.error("Response data:", err.response.data);
-      }
     }
   };
 
-  // Handle form inputs
+  // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (editId) {
@@ -64,14 +59,7 @@ function App() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validation
-    if (!formData.product_name || isNaN(parseFloat(formData.quantity))) {
-      alert("Please enter a valid product name and quantity");
-      return;
-    }
-
     try {
-      setLoading(true);
       const url = `${API_BASE}/bubbles`;
       console.log("Posting to:", url);
 
@@ -99,8 +87,6 @@ function App() {
     } catch (err) {
       console.error("Error sending bubble:", err);
       alert("There was a problem sending the bubble. Check console for details.");
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -190,8 +176,8 @@ function App() {
             />
           </Grid>
         </Grid>
-        <Button type="submit" variant="contained" color="primary" sx={{ mt: 2 }} disabled={loading}>
-          {loading ? "Saving..." : "Add Bubble"}
+        <Button type="submit" variant="contained" color="primary" sx={{ mt: 2 }}>
+          Add Bubble
         </Button>
       </form>
 
@@ -251,9 +237,7 @@ function App() {
                       {bubble.adjustment_type} - {bubble.quantity}
                     </Typography>
                     <Typography variant="body2">{bubble.notes}</Typography>
-                    <Typography variant="caption">
-                      {new Date(bubble.created_at).toLocaleString()}
-                    </Typography>
+                    <Typography variant="caption">{bubble.created_at}</Typography>
                   </>
                 )}
               </CardContent>
