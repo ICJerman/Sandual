@@ -12,7 +12,6 @@ app = FastAPI(title="Bubble Inventory Tracker")
 origins = [
     "https://sandual.netlify.app",          # main site
     "https://*.netlify.app",                # allow preview deploys
-    "http://localhost:3000",                # local dev
 ]
 
 app.add_middleware(
