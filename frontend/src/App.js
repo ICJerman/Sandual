@@ -15,8 +15,9 @@ import {
 } from "@mui/material";
 import { Delete, Edit, Save } from "@mui/icons-material";
 
-// ✅ Ensure HTTPS
-const API_BASE = "https://sandual-bcfjb2ddghhbh8hd.eastus2-01.azurewebsites.net";
+// Pull from environment variable, fallback to HTTPS just in case
+const API_BASE = process.env.REACT_APP_API_BASE || 
+  "https://sandual-bcfjb2ddghhbh8hd.eastus2-01.azurewebsites.net";
 
 function App() {
   const [bubbles, setBubbles] = useState([]);
@@ -31,13 +32,20 @@ function App() {
 
   // Fetch bubbles
   const fetchBubbles = async () => {
-    try {
-      const res = await axios.get(`${API_BASE}/bubbles`);
-      setBubbles(res.data);
-    } catch (err) {
-      console.error("Error fetching bubbles:", err);
+  try {
+    const url = `${API_BASE}/bubbles`;
+    console.log("Fetching from:", url);
+    const res = await axios.get(url);
+    console.log("Response:", res.data);
+    setBubbles(res.data);
+  } catch (err) {
+    console.error("Error fetching bubbles:", err);
+    if (err.response) {
+      console.error("Response data:", err.response.data);
+      console.error("Status:", err.response.status);
     }
-  };
+  }
+};
 
   // Handle form inputs
   const handleChange = (e) => {
