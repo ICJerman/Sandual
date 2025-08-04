@@ -20,6 +20,9 @@ const API_BASE =
   process.env.REACT_APP_API_BASE ||
   "https://sandual-bcfjb2ddghhbh8hd.eastus2-01.azurewebsites.net";
 
+console.log("🔥 API_BASE is:", API_BASE);
+
+
 function App() {
   const [bubbles, setBubbles] = useState([]);
   const [formData, setFormData] = useState({
