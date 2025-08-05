@@ -14,58 +14,53 @@ jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: read #This is required for actions/checkout
+      contents: read
 
     steps:
-      - uses: actions/checkout@v4
+      - name: ⬇️ Checkout code
+        uses: actions/checkout@v4
 
-      - name: Set up Python version
+      - name: 🐍 Set up Python 3.12
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
-      - name: Create and start virtual environment
+      - name: 📦 Install dependencies (inside backend)
+        working-directory: ./backend
         run: |
-          python -m venv venv
-          source venv/bin/activate
-      
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-        
-      # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
+          python -m venv .venv
+          source .venv/bin/activate
+          pip install -r requirements.txt
 
-      - name: Upload artifact for deployment jobs
+      - name: 📦 Upload backend as artifact
         uses: actions/upload-artifact@v4
         with:
-          name: python-app
-          path: |
-            .
-            !venv/
+          name: backend-app
+          path: backend
 
   deploy:
     runs-on: ubuntu-latest
     needs: build
     permissions:
-      id-token: write #This is required for requesting the JWT
-      contents: read #This is required for actions/checkout
+      id-token: write
+      contents: read
 
     steps:
-      - name: Download artifact from build job
+      - name: ⬇️ Download artifact
         uses: actions/download-artifact@v4
         with:
-          name: python-app
-      
-      - name: Login to Azure
+          name: backend-app
+
+      - name: 🔐 Login to Azure
         uses: azure/login@v2
         with:
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_D064C94924D145888105179C793B2D78 }}
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_FFB98EAC3CAA4DA9AD6684D591745A8C }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_1D50B0810F0E4E1496FBCDBA08769A87 }}
 
-      - name: 'Deploy to Azure Web App'
+
+      - name: 🚀 Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
-        id: deploy-to-webapp
         with:
           app-name: 'Sandual'
           slot-name: 'Production'
-          
