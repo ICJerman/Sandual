@@ -6,28 +6,30 @@ on:
       - main
   workflow_dispatch:
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
 
     steps:
       - name: ⬇️ Checkout code
         uses: actions/checkout@v4
 
-      - name: 🐍 Set up Python 3.12
+      - name: 🐍 Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
-      - name: 📦 Install dependencies (inside backend)
-        working-directory: ./backend
+      - name: 📦 Install dependencies
+        working-directory: backend
         run: |
           python -m venv .venv
           .venv/bin/pip install -r requirements.txt
 
-      - name: 📦 Upload backend as artifact
+      - name: 📦 Upload backend artifact
         uses: actions/upload-artifact@v4
         with:
           name: backend-app
@@ -38,8 +40,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build
-    permissions:
-      contents: read
 
     steps:
       - name: ⬇️ Download artifact
@@ -47,10 +47,12 @@ jobs:
         with:
           name: backend-app
 
-      - name: 🔐 Login to Azure (with Service Principal secret)
+      - name: 🔐 Azure Login (OIDC)
         uses: azure/login@v2
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       - name: 🚀 Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
