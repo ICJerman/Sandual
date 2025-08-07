@@ -56,5 +56,5 @@ jobs:
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'Sandual'
-          slot-name: 'Production'
+          slot-name: 'production'
           package: ./backend
