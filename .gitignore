@@ -1,0 +1,17 @@
+# -----------------------------
+# PYTHON BACKEND (FastAPI)
+# -----------------------------
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+
+# Virtual environment
+.venv/
+env/
+venv/
+
+# Environment files
+.env
