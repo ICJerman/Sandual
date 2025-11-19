@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, DateTime, Float
 from datetime import datetime
-from backend.database import Base
+from database import Base
 
 class Bubble(Base):
     __tablename__ = "bubbles"
