@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from database import Base, engine          # ← removed "backend."
-from routers import bubble                 # ← removed "backend."
+from routers.bubble import bubble_router                 # ← removed "backend."
 
 import logging
 logging.basicConfig(level=logging.DEBUG)
@@ -27,7 +27,7 @@ app.add_middleware(
 )
 
 # Include routers
-app.include_router(bubble.router)
+app.include_router(bubble_router.router)
 
 @app.get("/")
 def root():
